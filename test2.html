@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تست Firebase</title>
+<style>
+body { font-family: Tahoma; padding: 20px; background: #f0f0f0; }
+.box { background: white; padding: 20px; border-radius: 10px; margin: 10px 0; }
+.ok { color: green; font-weight: bold; }
+.err { color: red; font-weight: bold; }
+input, button { padding: 12px; font-size: 16px; border-radius: 8px; border: 1px solid #ccc; width: 100%; box-sizing: border-box; margin: 5px 0; }
+button { background: #6d28d9; color: white; border: none; }
+h2 { color: #6d28d9; }
+</style>
+</head>
+<body>
+<h1>تست اتصال به Firebase</h1>
+
+<h2>۱. تست نوشتن در Firestore</h2>
+<button onclick="testFirestore()">تست Firestore</button>
+<div id="r1"></div>
+
+<h2>۲. تست ثبت‌نام کاربر</h2>
+<input id="email" placeholder="ایمیل (مثلاً test@test.com)">
+<input id="pass" type="password" placeholder="رمز (حداقل ۶ کاراکتر)">
+<button onclick="testAuth()">ثبت‌نام</button>
+<div id="r2"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyArOOLrGn8wwj9-Hi0Ew1RBVNDxILnmBWs",
+  authDomain: "myshop-82ab8.firebaseapp.com",
+  projectId: "myshop-82ab8",
+  storageBucket: "myshop-82ab8.firebasestorage.app",
+  messagingSenderId: "307024397182",
+  appId: "1:307024397182:web:54391f8a94d8f693dc692f"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+window.testFirestore = async function() {
+  const r = document.getElementById('r1');
+  r.innerHTML = '<div class="box">در حال تست...</div>';
+  try {
+    await addDoc(collection(db, 'products'), {
+      name: 'test product',
+      price: 100,
+      createdAt: serverTimestamp()
+    });
+    r.innerHTML = '<div class="box ok">✓ Firestore کار می‌کند! یک محصول تستی ذخیره شد.</div>';
+  } catch (e) {
+    r.innerHTML = '<div class="box err">✗ خطا: ' + e.message + '</div>';
+  }
+};
+
+window.testAuth = async function() {
+  const r = document.getElementById('r2');
+  const email = document.getElementById('email').value.trim();
+  const pass = document.getElementById('pass').value;
+  if (!email || !pass) { r.innerHTML = '<div class="box err">ایمیل و رمز را وارد کن</div>'; return; }
+  r.innerHTML = '<div class="box">در حال تست...</div>';
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    r.innerHTML = '<div class="box ok">✓ ثبت‌نام موفق! UID: ' + cred.user.uid + '</div>';
+  } catch (e) {
+    r.innerHTML = '<div class="box err">✗ خطا: ' + e.message + '</div>';
+  }
+};
+</script>
+</body>
+</html>
