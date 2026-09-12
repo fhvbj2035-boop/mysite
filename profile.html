@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پروفایل من | بازارک</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Vazirmatn', Tahoma, sans-serif; background: #f9fafb; color: #111827; }
+.header { background: white; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 3px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 100; }
+.logo { font-size: 22px; font-weight: 700; color: #6d28d9; text-decoration: none; }
+.back { color: #6d28d9; text-decoration: none; font-size: 22px; }
+.container { max-width: 600px; margin: 0 auto; padding: 20px 15px; }
+.profile-card { background: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%); color: white; border-radius: 16px; padding: 25px; margin-bottom: 20px; }
+.avatar { width: 70px; height: 70px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 15px; }
+.profile-name { font-size: 20px; font-weight: 700; margin-bottom: 5px; }
+.profile-email { font-size: 13px; opacity: 0.9; margin-bottom: 10px; }
+.role-badge { display: inline-block; background: rgba(255,255,255,0.25); padding: 5px 14px; border-radius: 20px; font-size: 12px; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.stat-card { background: white; padding: 20px 15px; border-radius: 12px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.stat-num { font-size: 26px; font-weight: 700; color: #6d28d9; }
+.stat-label { font-size: 12px; color: #6b7280; margin-top: 6px; }
+.menu { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.menu-item { display: flex; align-items: center; padding: 16px; border-bottom: 1px solid #f3f4f6; text-decoration: none; color: #111827; }
+.menu-item:last-child { border-bottom: none; }
+.menu-icon { font-size: 22px; margin-left: 14px; width: 30px; text-align: center; }
+.menu-text { flex: 1; font-size: 15px; font-weight: 500; }
+.menu-arrow { color: #9ca3af; font-size: 18px; }
+.menu-item.logout .menu-text { color: #b91c1c; }
+.loading { text-align: center; padding: 60px; color: #9ca3af; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="index.html" class="back">→</a>
+  <a href="index.html" class="logo">بازارک</a>
+  <div style="width:22px;"></div>
+</header>
+
+<div class="container" id="content">
+  <div class="loading">در حال بارگذاری...</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyArOOLrGn8wwj9-Hi0Ew1RBVNDxILnmBWs",
+  authDomain: "myshop-82ab8.firebaseapp.com",
+  projectId: "myshop-82ab8",
+  storageBucket: "myshop-82ab8.firebasestorage.app",
+  messagingSenderId: "307024397182",
+  appId: "1:307024397182:web:54391f8a94d8f693dc692f"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+window.doLogout = async function() {
+  if (confirm('از حساب خود خارج می‌شوید؟')) {
+    await signOut(auth);
+    window.location.href = 'index.html';
+  }
+};
+
+onAuthStateChanged(auth, async (user) => {
+  const content = document.getElementById('content');
+  if (!user) { window.location.href = 'login.html'; return; }
+  try {
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    const data = snap.exists() ? snap.data() : {};
+    const name = data.name || 'کاربر بازارک';
+    const role = data.role || 'buyer';
+    const roleFa = role === 'seller' ? 'فروشنده' : 'خریدار';
+
+    // شمارش محصولات (اگر فروشنده)
+    let productCount = 0;
+    let orderCount = 0;
+    try {
+      const pq = query(collection(db, 'products'), where('sellerId', '==', user.uid));
+      const ps = await getDocs(pq);
+      productCount = ps.size;
+      const oq = query(collection(db, 'orders'), where('buyerId', '==', user.uid));
+      const os = await getDocs(oq);
+      orderCount = os.size;
+    } catch (e) {}
+
+    content.innerHTML =
+      '<div class="profile-card">' +
+        '<div class="avatar">👤</div>' +
+        '<div class="profile-name">' + name + '</div>' +
+        '<div class="profile-email">' + (user.email || '') + '</div>' +
+        '<span class="role-badge">' + roleFa + '</span>' +
+      '</div>' +
+      '<div class="stats">' +
+        '<div class="stat-card"><div class="stat-num">' + productCount + '</div><div class="stat-label">محصول من</div></div>' +
+        '<div class="stat-card"><div class="stat-num">' + orderCount + '</div><div class="stat-label">سفارش من</div></div>' +
+      '</div>' +
+      '<div class="menu">' +
+        '<a href="my-orders.html" class="menu-item"><div class="menu-icon">📦</div><div class="menu-text">سفارشات من</div><div class="menu-arrow">‹</div></a>' +
+        (role === 'seller' ? '<a href="my-products.html" class="menu-item"><div class="menu-icon">🏪</div><div class="menu-text">محصولات من</div><div class="menu-arrow">‹</div></a>' : '') +
+        (role === 'seller' ? '<a href="add-product.html" class="menu-item"><div class="menu-icon">➕</div><div class="menu-text">افزودن محصول جدید</div><div class="menu-arrow">‹</div></a>' : '') +
+        '<a href="products.html" class="menu-item"><div class="menu-icon">🛍️</div><div class="menu-text">همه محصولات</div><div class="menu-arrow">‹</div></a>' +
+        '<a href="index.html" class="menu-item"><div class="menu-icon">🏠</div><div class="menu-text">صفحه اصلی</div><div class="menu-arrow">‹</div></a>' +
+        '<a href="#" onclick="doLogout(); return false;" class="menu-item logout"><div class="menu-icon">🚪</div><div class="menu-text">خروج از حساب</div><div class="menu-arrow">‹</div></a>' +
+      '</div>';
+  } catch (e) {
+    content.innerHTML = '<div class="loading">خطا: ' + e.message + '</div>';
+  }
+});
+</script>
+</body>
+</html>
