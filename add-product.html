@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>افزودن محصول | بازارک</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Vazirmatn', Tahoma, sans-serif; background: #f9fafb; color: #111827; }
+.header { background: white; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 3px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 100; }
+.logo { font-size: 22px; font-weight: 700; color: #6d28d9; text-decoration: none; }
+.back { color: #6d28d9; text-decoration: none; font-size: 22px; font-weight: bold; }
+.container { max-width: 500px; margin: 0 auto; padding: 20px 15px; }
+h1 { font-size: 20px; margin-bottom: 20px; }
+.field { margin-bottom: 15px; }
+label { display: block; font-size: 13px; color: #444; margin-bottom: 6px; font-weight: 500; }
+input, textarea, select { width: 100%; padding: 12px 14px; border: 1.5px solid #e5e7eb; border-radius: 10px; font-family: inherit; font-size: 15px; background: white; }
+input:focus, textarea:focus, select:focus { outline: none; border-color: #6d28d9; }
+textarea { resize: vertical; min-height: 90px; }
+.btn { width: 100%; padding: 14px; background: #6d28d9; color: white; border: none; border-radius: 10px; font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+.btn:disabled { background: #c4b5fd; cursor: not-allowed; }
+.msg { padding: 12px; border-radius: 10px; margin-top: 15px; font-size: 14px; text-align: center; display: none; }
+.msg.err { background: #fee2e2; color: #b91c1c; display: block; }
+.msg.ok { background: #dcfce7; color: #15803d; display: block; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="products.html" class="back">→</a>
+  <a href="index.html" class="logo">بازارک</a>
+  <div style="width:22px;"></div>
+</header>
+
+<div class="container">
+  <h1>افزودن محصول جدید</h1>
+  <div class="field">
+    <label>نام محصول</label>
+    <input id="title" placeholder="مثلاً گوشی سامسونگ A54">
+  </div>
+  <div class="field">
+    <label>توضیحات</label>
+    <textarea id="description" placeholder="توضیح کامل محصول..."></textarea>
+  </div>
+  <div class="field">
+    <label>قیمت (تومان)</label>
+    <input id="price" type="number" placeholder="مثلاً 15000000">
+  </div>
+  <div class="field">
+    <label>دسته‌بندی</label>
+    <select id="category">
+      <option value="mobile">موبایل</option>
+      <option value="computer">کامپیوتر</option>
+      <option value="home">خانه</option>
+      <option value="car">خودرو</option>
+      <option value="clothes">پوشاک</option>
+      <option value="book">کتاب</option>
+      <option value="game">بازی</option>
+      <option value="service">خدمات</option>
+    </select>
+  </div>
+  <div class="field">
+    <label>لینک تصویر (اختیاری)</label>
+    <input id="imageUrl" placeholder="https://...">
+  </div>
+  <div class="field">
+    <label>موجودی</label>
+    <input id="stock" type="number" value="1">
+  </div>
+  <button class="btn" id="btnSave" onclick="saveProduct()">ذخیره محصول</button>
+  <div id="msg" class="msg"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyArOOLrGn8wwj9-Hi0Ew1RBVNDxILnmBWs",
+  authDomain: "myshop-82ab8.firebaseapp.com",
+  projectId: "myshop-82ab8",
+  storageBucket: "myshop-82ab8.firebasestorage.app",
+  messagingSenderId: "307024397182",
+  appId: "1:307024397182:web:54391f8a94d8f693dc692f"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+let currentUser = null;
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) { window.location.href = 'login.html'; return; }
+  currentUser = user;
+});
+
+function showMsg(t, type) {
+  const m = document.getElementById('msg');
+  m.textContent = t;
+  m.className = 'msg ' + type;
+}
+
+window.saveProduct = async function() {
+  if (!currentUser) { showMsg('لطفاً ابتدا وارد شوید', 'err'); return; }
+  const title = document.getElementById('title').value.trim();
+  const description = document.getElementById('description').value.trim();
+  const price = Number(document.getElementById('price').value);
+  const category = document.getElementById('category').value;
+  const imageUrl = document.getElementById('imageUrl').value.trim();
+  const stock = Number(document.getElementById('stock').value) || 1;
+  if (!title) { showMsg('نام محصول را وارد کنید', 'err'); return; }
+  if (!price || price <= 0) { showMsg('قیمت معتبر وارد کنید', 'err'); return; }
+  const btn = document.getElementById('btnSave');
+  btn.disabled = true;
+  btn.textContent = 'در حال ذخیره...';
+  try {
+    await addDoc(collection(db, 'products'), {
+      title, description, price, category, imageUrl, stock,
+      sellerId: currentUser.uid,
+      sellerEmail: currentUser.email,
+      createdAt: serverTimestamp()
+    });
+    showMsg('✓ محصول ذخیره شد! در حال انتقال...', 'ok');
+    setTimeout(() => window.location.href = 'products.html', 1000);
+  } catch (e) {
+    showMsg('✗ خطا: ' + e.message, 'err');
+    btn.disabled = false;
+    btn.textContent = 'ذخیره محصول';
+  }
+};
+</script>
+</body>
+</html>
