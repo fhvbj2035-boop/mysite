@@ -16,7 +16,7 @@ body { font-family: 'Vazirmatn', Tahoma, sans-serif; background: #f9fafb; color:
 .avatar { width: 70px; height: 70px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 15px; }
 .profile-name { font-size: 20px; font-weight: 700; margin-bottom: 5px; }
 .profile-email { font-size: 13px; opacity: 0.9; margin-bottom: 10px; }
-.role-badge { display: inline-block; background: rgba(255,255,255,0.25); padding: 5px 14px; border-radius: 20px; font-size: 12px; }
+.role-badge { display: inline-block; background: rgba(255,255,255,0.25); padding: 5px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; }
 .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
 .stat-card { background: white; padding: 20px 15px; border-radius: 12px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
 .stat-num { font-size: 26px; font-weight: 700; color: #6d28d9; }
@@ -61,6 +61,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+const ROLE_FA = { buyer: 'خریدار', seller: 'فروشنده', provider: 'ارائه‌دهنده خدمات' };
+
 window.doLogout = async function() {
   if (confirm('از حساب خود خارج می‌شوید؟')) {
     await signOut(auth);
@@ -71,12 +73,13 @@ window.doLogout = async function() {
 window.switchRole = async function() {
   const user = auth.currentUser;
   if (!user) return;
-  const ok = confirm('نقش خود را به فروشنده تغییر می‌دهید؟ (اگر فروشنده هستید، به خریدار تغییر می‌کند)');
-  if (!ok) return;
+  const c = prompt('نقش خود را انتخاب کنید:\n\n1 = خریدار\n2 = فروشنده (فروش محصول)\n3 = ارائه‌دهنده خدمات\n\nعدد را وارد کنید:', '1');
+  if (!c) return;
+  let newRole = 'buyer';
+  if (c === '2') newRole = 'seller';
+  else if (c === '3') newRole = 'provider';
   try {
     const snap = await getDoc(doc(db, 'users', user.uid));
-    const current = snap.exists() ? (snap.data().role || 'buyer') : 'buyer';
-    const newRole = current === 'seller' ? 'buyer' : 'seller';
     if (snap.exists()) {
       await updateDoc(doc(db, 'users', user.uid), { role: newRole });
     } else {
@@ -96,38 +99,57 @@ onAuthStateChanged(auth, async (user) => {
     const data = snap.exists() ? snap.data() : {};
     const name = data.name || 'کاربر بازارک';
     const role = data.role || 'buyer';
-    const roleFa = role === 'seller' ? 'فروشنده' : 'خریدار';
+    const roleFa = ROLE_FA[role] || 'کاربر';
 
     let productCount = 0;
+    let serviceCount = 0;
     let orderCount = 0;
     try {
       const pq = query(collection(db, 'products'), where('sellerId', '==', user.uid));
       const ps = await getDocs(pq);
       productCount = ps.size;
+      const sq = query(collection(db, 'services'), where('providerId', '==', user.uid));
+      const ss = await getDocs(sq);
+      serviceCount = ss.size;
       const oq = query(collection(db, 'orders'), where('buyerId', '==', user.uid));
       const os = await getDocs(oq);
       orderCount = os.size;
     } catch (e) {}
+
+    let statsHtml = '';
+    if (role === 'seller') {
+      statsHtml = '<div class="stat-card"><div class="stat-num">' + productCount + '</div><div class="stat-label">محصول من</div></div>';
+    } else if (role === 'provider') {
+      statsHtml = '<div class="stat-card"><div class="stat-num">' + serviceCount + '</div><div class="stat-label">خدمت من</div></div>';
+    } else {
+      statsHtml = '<div class="stat-card"><div class="stat-num">' + orderCount + '</div><div class="stat-label">خرید من</div></div>';
+    }
+    statsHtml += '<div class="stat-card"><div class="stat-num">' + orderCount + '</div><div class="stat-label">سفارش من</div></div>';
+
+    let menu = '<a href="my-orders.html" class="menu-item"><div class="menu-icon">📦</div><div class="menu-text">سفارشات من</div><div class="menu-arrow">‹</div></a>';
+
+    if (role === 'seller') {
+      menu += '<a href="my-products.html" class="menu-item"><div class="menu-icon">🏪</div><div class="menu-text">محصولات من</div><div class="menu-arrow">‹</div></a>';
+      menu += '<a href="add-product.html" class="menu-item"><div class="menu-icon">➕</div><div class="menu-text">افزودن محصول جدید</div><div class="menu-arrow">‹</div></a>';
+    } else if (role === 'provider') {
+      menu += '<a href="my-services.html" class="menu-item"><div class="menu-icon">🛠️</div><div class="menu-text">خدمات من</div><div class="menu-arrow">‹</div></a>';
+      menu += '<a href="add-service.html" class="menu-item"><div class="menu-icon">➕</div><div class="menu-text">افزودن خدمت جدید</div><div class="menu-arrow">‹</div></a>';
+    }
+
+    menu += '<a href="products.html" class="menu-item"><div class="menu-icon">🛍️</div><div class="menu-text">همه محصولات</div><div class="menu-arrow">‹</div></a>';
+    menu += '<a href="services.html" class="menu-item"><div class="menu-icon">🛠️</div><div class="menu-text">همه خدمات</div><div class="menu-arrow">‹</div></a>';
+    menu += '<a href="index.html" class="menu-item"><div class="menu-icon">🏠</div><div class="menu-text">صفحه اصلی</div><div class="menu-arrow">‹</div></a>';
+    menu += '<a href="#" onclick="doLogout(); return false;" class="menu-item logout"><div class="menu-icon">🚪</div><div class="menu-text">خروج از حساب</div><div class="menu-arrow">‹</div></a>';
 
     content.innerHTML =
       '<div class="profile-card">' +
         '<div class="avatar">👤</div>' +
         '<div class="profile-name">' + name + '</div>' +
         '<div class="profile-email">' + (user.email || '') + '</div>' +
-        '<span class="role-badge" onclick="switchRole()" style="cursor:pointer;">' + roleFa + ' (تغییر)</span>' +
+        '<span class="role-badge" onclick="switchRole()">' + roleFa + ' (تغییر)</span>' +
       '</div>' +
-      '<div class="stats">' +
-        '<div class="stat-card"><div class="stat-num">' + productCount + '</div><div class="stat-label">محصول من</div></div>' +
-        '<div class="stat-card"><div class="stat-num">' + orderCount + '</div><div class="stat-label">سفارش من</div></div>' +
-      '</div>' +
-      '<div class="menu">' +
-        '<a href="my-orders.html" class="menu-item"><div class="menu-icon">📦</div><div class="menu-text">سفارشات من</div><div class="menu-arrow">‹</div></a>' +
-        (role === 'seller' ? '<a href="my-products.html" class="menu-item"><div class="menu-icon">🏪</div><div class="menu-text">محصولات من</div><div class="menu-arrow">‹</div></a>' : '') +
-        (role === 'seller' ? '<a href="add-product.html" class="menu-item"><div class="menu-icon">➕</div><div class="menu-text">افزودن محصول جدید</div><div class="menu-arrow">‹</div></a>' : '') +
-        '<a href="products.html" class="menu-item"><div class="menu-icon">🛍️</div><div class="menu-text">همه محصولات</div><div class="menu-arrow">‹</div></a>' +
-        '<a href="index.html" class="menu-item"><div class="menu-icon">🏠</div><div class="menu-text">صفحه اصلی</div><div class="menu-arrow">‹</div></a>' +
-        '<a href="#" onclick="doLogout(); return false;" class="menu-item logout"><div class="menu-icon">🚪</div><div class="menu-text">خروج از حساب</div><div class="menu-arrow">‹</div></a>' +
-      '</div>';
+      '<div class="stats">' + statsHtml + '</div>' +
+      '<div class="menu">' + menu + '</div>';
   } catch (e) {
     content.innerHTML = '<div class="loading">خطا: ' + e.message + '</div>';
   }
