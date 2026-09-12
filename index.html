@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بازارک | بازارگاه کالا و خدمات</title>
+<meta name="description" content="بازارک، بزرگ‌ترین بازارگاه آنلاین برای خرید کالا و سفارش خدمات در ایران">
+
+<!-- فونت وزیرمتن -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ===================== متغیرها ===================== */
+:root{
+  --primary:#6d28d9;
+  --primary-2:#4f46e5;
+  --primary-dark:#5b21b6;
+  --primary-light:#8b5cf6;
+  --accent:#f59e0b;
+  --sky:#0ea5e9;
+
+  --bg:#ffffff;
+  --bg-soft:#f7f7fb;
+  --text:#1e1b2e;
+  --muted:#6b7280;
+  --border:#e9e9f2;
+
+  --radius-sm:10px;
+  --radius:16px;
+  --radius-lg:24px;
+
+  --shadow-sm:0 2px 10px rgba(30,27,46,.06);
+  --shadow-md:0 12px 32px rgba(30,27,46,.10);
+  --shadow-lg:0 24px 60px rgba(109,40,217,.20);
+
+  --container:1180px;
+  --header-h:74px;
+}
+
+/* ===================== ریست ===================== */
+*,*::before,*::after{box-sizing:border-box}
+
+html{
+  scroll-behavior:smooth;
+  -webkit-text-size-adjust:100%;
+}
+
+body{
+  margin:0;
+  font-family:'Vazirmatn',system-ui,-apple-system,'Segoe UI',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.8;
+  font-size:15px;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+ul{list-style:none;margin:0;padding:0}
+button,input{font-family:inherit}
+h1,h2,h3,h4{margin:0;line-height:1.5;font-weight:700}
+
+.container{
+  width:100%;
+  max-width:var(--container);
+  margin:0 auto;
+  padding:0 20px;
+}
+
+section[id]{scroll-margin-top:calc(var(--header-h) + 16px)}
+
+/* ===================== دکمه‌ها ===================== */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 26px;
+  border-radius:12px;
+  font-size:15px;
+  font-weight:600;
+  font-family:inherit;
+  border:1px solid transparent;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:all .28s cubic-bezier(.16,1,.3,1);
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--primary),var(--primary-2));
+  color:#fff;
+  box-shadow:0 8px 22px rgba(109,40,217,.28);
+}
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 30px rgba(109,40,217,.38);
+}
+.btn-outline{
+  background:transparent;
+  border-color:var(--border);
+  color:var(--text);
+}
+.btn-outline:hover{
+  border-color:var(--primary);
+  color:var(--primary);
+  background:rgba(109,40,217,.04);
+}
+.btn-sm{padding:9px 18px;font-size:14px;border-radius:10px}
+
+/* دکمه‌های روی هیرو */
+.btn-light{background:#fff;color:var(--primary-dark);box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.btn-light:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(0,0,0,.26)}
+.btn-glass{
+  background:rgba(255,255,255,.12);
+  border-color:rgba(255,255,255,.32);
+  color:#fff;
+  backdrop-filter:blur(8px);
+}
+.btn-glass:hover{background:rgba(255,255,255,.22);transform:translateY(-2px)}
+
+/* ===================== هدر ===================== */
+.header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(255,255,255,.82);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s, box-shadow .3s;
+}
+.header.is-scrolled{
+  border-bottom-color:var(--border);
+  box-shadow:0 4px 24px rgba(30,27,46,.06);
+}
+
+.header__inner{
+  display:flex;
+  align-items:center;
+  gap:28px;
+  height:var(--header-h);
+}
+
+/* لوگو */
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:800;
+  font-size:20px;
+  letter-spacing:-.3px;
+  flex-shrink:0;
+}
+.logo__mark{
+  width:40px;height:40px;
+  border-radius:12px;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--primary),var(--primary-2));
+  color:#fff;
+  box-shadow:0 6px 16px rgba(109,40,217,.32);
+}
+.logo__mark svg{width:22px;height:22px}
+.logo__text b{color:var(--primary)}
+
+/* ناوبری */
+.nav{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-inline-start:auto;
+}
+.nav__link{
+  position:relative;
+  padding:9px 14px;
+  border-radius:10px;
+  font-weight:500;
+  color:#3f3b52;
+  transition:color .22s, background .22s;
+}
+.nav__link::after{
+  content:'';
+  position:absolute;
+  bottom:4px;
+  right:50%;
+  transform:translateX(50%) scaleX(0);
+  width:18px;height:2px;
+  border-radius:2px;
+  background:var(--primary);
+  transition:transform .28s cubic-bezier(.16,1,.3,1);
+}
+.nav__link:hover{color:var(--primary);background:rgba(109,40,217,.05)}
+.nav__link:hover::after,
+.nav__link.is-active::after{transform:translateX(50%) scaleX(1)}
+.nav__link.is-active{color:var(--primary);font-weight:600}
+
+.nav__auth{display:none}
+
+/* اکشن‌های هدر */
+.header__actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-shrink:0;
+}
+
+/* دکمه منوی موبایل */
+.burger{
+  display:none;
+  width:44px;height:44px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:#fff;
+  cursor:pointer;
+  padding:0;
+  place-items:center;
+  transition:.25s;
+}
+.burger:hover{border-color:var(--primary);background:rgba(109,40,217,.05)}
+.burger span{
+  display:block;
+  width:19px;height:2px;
+  margin:3px auto;
+  border-radius:2px;
+  background:var(--text);
+  transition:.3s cubic-bezier(.16,1,.3,1);
+}
+.burger.is-active span:nth-child(1){transform:translateY(5px) rotate(45deg)}
+.burger.is-active span:nth-child(2){opacity:0;transform:scaleX(.3)}
+.burger.is-active span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+
+/* ===================== هیرو ===================== */
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:70px 0 96px;
+  color:#fff;
+  background:linear-gradient(135deg,#5b21b6 0%,#6d28d9 32%,#4f46e5 68%,#2563eb 100%);
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  width:560px;height:560px;
+  border-radius:50%;
+  top:-240px;left:-140px;
+  background:radial-gradient(circle,rgba(255,255,255,.20),transparent 68%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';
+  position:absolute;
+  width:480px;height:480px;
+  border-radius:50%;
+  bottom:-230px;right:-110px;
+  background:radial-gradient(circle,rgba(245,158,11,.30),transparent 68%);
+  pointer-events:none;
+}
+
+.hero__inner{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:56px;
+  align-items:center;
+}
+
+.badge-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 16px;
+  border-radius:999px;
+  font-size:13.5px;
+  font-weight:500;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.26);
+  backdrop-filter:blur(8px);
+  margin-bottom:22px;
+}
+.badge-pill .dot{
+  width:7px;height:7px;
+  border-radius:50%;
+  background:#4ade80;
+  box-shadow:0 0 0 4px rgba(74,222,128,.25);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 4px rgba(74,222,128,.25)}
+  50%{box-shadow:0 0 0 8px rgba(74,222,128,.08)}
+}
+
+.hero h1{
+  font-size:clamp(28px,4.6vw,50px);
+  font-weight:800;
+  line-height:1.45;
+  letter-spacing:-.5px;
+  margin-bottom:18px;
+}
+.hero h1 .highlight{
+  background:linear-gradient(90deg,#fbbf24,#fde68a 60%,#fcd34d);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.hero__desc{
+  font-size:16.5px;
+  line-height:2;
+  color:rgba(255,255,255,.86);
+  max-width:520px;
+  margin:0 0 32px;
+}
+
+.hero__actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-bottom:42px;
+}
+
+.hero__stats{
+  display:flex;
+  flex-wrap:wrap;
+  gap:38px;
+  padding-top:28px;
+  border-top:1px solid rgba(255,255,255,.18);
+}
+.stat__num{
+  font-size:26px;
+  font-weight:800;
+  letter-spacing:-.5px;
+  display:block;
+  line-height:1.3;
+}
+.stat__label{
+  font-size:13.5px;
+  color:rgba(255,255,255,.72);
+}
+
+/* ویژوال هیرو */
+.hero__visual{
+  position:relative;
+  padding:10px;
+}
+.visual-card{
+  position:relative;
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.24);
+  padding:12px;
+  backdrop-filter:blur(12px);
+  box-shadow:0 30px 70px rgba(0,0,0,.28);
+  animation:floatY 6s ease-in-out infinite;
+}
+@keyframes floatY{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-12px)}
+}
+.visual-card img{
+  width:100%;
+  aspect-ratio:4/3.2;
+  object-fit:cover;
+  border-radius:18px;
+}
+.visual-card__info{
+  padding:16px 8px 6px;
+}
+.visual-card__tag{
+  display:inline-block;
+  font-size:12px;
+  font-weight:600;
+  padding:3px 12px;
+  border-radius:999px;
+  background:rgba(251,191,36,.22);
+  color:#fde68a;
+  border:1px solid rgba(251,191,36,.35);
+  margin-bottom:8px;
+}
+.visual-card__info h4{
+  font-size:17px;
+  font-weight:700;
+  margin-bottom:4px;
+}
+.visual-card__price{
+  margin:0;
+  font-size:15px;
+  font-weight:700;
+  color:#a7f3d0;
+}
+
+.float-badge{
+  position:absolute;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:10px 16px;
+  border-radius:14px;
+  background:#fff;
+  color:var(--text);
+  font-size:13.5px;
+  font-weight:600;
+  box-shadow:0 14px 34px rgba(0,0,0,.22);
+  white-space:nowrap;
+}
+.float-badge--1{top:34px;inset-inline-start:-18px;animation:floatY 5s ease-in-out infinite .6s}
+.float-badge--2{bottom:78px;inset-inline-end:-14px;animation:floatY 5.6s ease-in-out infinite .3s}
+
+/* ===================== بخش‌ها ===================== */
+.section{padding:84px 0}
+.section--soft{background:var(--bg-soft)}
+
+.section__head{
+  text-align:center;
+  max-width:640px;
+  margin:0 auto 48px;
+}
+.eyebrow{
+  display:inline-block;
+  font-size:13px;
+  font-weight:700;
+  color:var(--primary);
+  background:rgba(109,40,217,.09);
+  padding:5px 15px;
+  border-radius:999px;
+  margin-bottom:14px;
+}
+.section__title{
+  font-size:clamp(23px,3vw,34px);
+  font-weight:800;
+  letter-spacing:-.5px;
+  margin-bottom:12px;
+}
+.section__desc{
+  margin:0;
+  color:var(--muted);
+  font-size:15.5px;
+}
+
+/* ===================== دسته‌بندی‌ها ===================== */
+.cat-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:24px;
+  margin-bottom:28px;
+}
+.cat-card{
+  position:relative;
+  overflow:hidden;
+  padding:36px 32px;
+  border-radius:var(--radius-lg);
+  background:#fff;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow-sm);
+  transition:transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s, border-color .35s;
+  display:block;
+}
+.cat-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition:opacity .35s;
+  background:linear-gradient(135deg,rgba(109,40,217,.05),rgba(79,70,229,.02));
+}
+.cat-card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-md);
+  border-color:rgba(109,40,217,.28);
+}
+.cat-card:hover::before{opacity:1}
+
+.cat-card__icon{
+  position:relative;
+  width:60px;height:60px;
+  border-radius:18px;
+  display:grid;place-items:center;
+  color:#fff;
+  margin-bottom:20px;
+  box-shadow:0 10px 24px rgba(109,40,217,.26);
+}
+.cat-card--goods .cat-card__icon{background:linear-gradient(135deg,var(--primary),var(--primary-2))}
+.cat-card--services .cat-card__icon{background:linear-gradient(135deg,#0284c7,#0ea5e9);box-shadow:0 10px 24px rgba(14,165,233,.28)}
+.cat-card__icon svg{width:28px;height:28px}
+
+.cat-card h3{
+  position:relative;
+  font-size:22px;
+  font-weight:800;
+  margin-bottom:8px;
+}
+.cat-card p{
+  position:relative;
+  margin:0 0 20px;
+  color:var(--muted);
+  font-size:14.5px;
+  line-height:1.95;
+}
+.cat-card__foot{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-top:18px;
+  border-top:1px dashed var(--border);
+}
+.cat-card__count{
+  font-size:13.5px;
+  font-weight:600;
+  color:var(--primary);
+  background:rgba(109,40,217,.08);
+  padding:4px 14px;
+  border-radius:999px;
+}
+.cat-card--services .cat-card__count{color:#0284c7;background:rgba(14,165,233,.09)}
+.cat-card__arrow{
+  font-size:20px;
+  color:var(--muted);
+  transition:transform .3s, color .3s;
+}
+.cat-card:hover .cat-card__arrow{transform:translateX(-6px);color:var(--primary)}
+
+/* چیپ‌های کوچک */
+.mini-cats{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:14px;
+}
+.mini-cat{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:9px;
+  padding:20px 10px;
+  border-radius:var(--radius);
+  background:#fff;
+  border:1px solid var(--border);
+  font-size:13.5px;
+  font-weight:600;
+  text-align:center;
+  transition:transform .28s cubic-bezier(.16,1,.3,1), border-color .28s, box-shadow .28s;
+}
+.mini-cat:hover{
+  transform:translateY(-4px);
+  border-color:rgba(109,40,217,.3);
+  box-shadow:var(--shadow-sm);
+}
+.mini-cat__icon{
+  width:44px;height:44px;
+  border-radius:14px;
+  display:grid;place-items:center;
+  font-size:20px;
+  background:var(--bg-soft);
+  transition:background .28s;
+}
+.mini-cat:hover .mini-cat__icon{background:rgba(109,40,217,.09)}
+
+/* ===================== تب‌ها ===================== */
+.tabs{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-bottom:40px;
+  flex-wrap:wrap;
+}
+.tab{
+  padding:10px 24px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:#fff;
+  color:#4b4763;
+  font-size:14.5px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.25s;
+}
+.tab:hover{border-color:var(--primary-light);color:var(--primary)}
+.tab.is-active{
+  background:linear-gradient(135deg,var(--primary),var(--primary-2));
+  border-color:transparent;
+  color:#fff;
+  box-shadow:0 8px 20px rgba(109,40,217,.26);
+}
+
+/* ===================== کارت آگهی ===================== */
+.listing-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  transition:transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s, border-color .35s;
+}
+.card:hover{
+  transform:translateY(-7px);
+  box-shadow:var(--shadow-md);
+  border-color:rgba(109,40,217,.22);
+}
+.card.is-hidden{display:none}
+
+.card__media{
+  position:relative;
+  overflow:hidden;
+  background:var(--bg-soft);
+}
+.card__media img{
+  width:100%;
+  aspect-ratio:16/10.5;
+  object-fit:cover;
+  transition:transform .6s cubic-bezier(.16,1,.3,1);
+}
+.card:hover .card__media img{transform:scale(1.07)}
+
+.card__badge{
+  position:absolute;
+  top:12px;
+  inset-inline-end:12px;
+  font-size:12px;
+  font-weight:700;
+  color:#fff;
+  padding:5px 13px;
+  border-radius:999px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-2));
+  box-shadow:0 6px 16px rgba(0,0,0,.18);
+}
+.card[data-type="service"] .card__badge{
+  background:linear-gradient(135deg,#0284c7,#0ea5e9);
+}
+
+.card__body{
+  padding:18px 20px 20px;
+  display:flex;
+  flex-direction:column;
+  flex:1;
+}
+.card__title{
+  font-size:16px;
+  font-weight:700;
+  margin-bottom:10px;
+  line-height:1.75;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  min-height:56px;
+}
+.card__meta{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  font-size:12.5px;
+  color:var(--muted);
+  margin-bottom:16px;
+}
+.card__meta span{display:inline-flex;align-items:center;gap:5px}
+.card__meta svg{width:14px;height:14px;opacity:.75}
+
+.card__foot{
+  margin-top:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding-top:16px;
+  border-top:1px solid var(--border);
+}
+.card__price{
+  font-size:16px;
+  font-weight:800;
+  color:var(--primary);
+  letter-spacing:-.2px;
+}
+.card__price small{
+  font-size:12px;
+  font-weight:500;
+  color:var(--muted);
+}
+.card__btn{
+  padding:8px 18px;
+  border-radius:10px;
+  font-size:13.5px;
+  font-weight:600;
+  font-family:inherit;
+  border:1px solid var(--border);
+  background:#fff;
+  color:#3f3b52;
+  cursor:pointer;
+  transition:.25s;
+}
+.card__btn:hover{
+  background:linear-gradient(135deg,var(--primary),var(--primary-2));
+  border-color:transparent;
+  color:#fff;
+}
+
+.listings__more{
+  display:flex;
+  justify-content:center;
+  margin-top:46px;
+}
+
+/* ===================== چرا ما ===================== */
+.why-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:24px;
+}
+.why-card{
+  padding:34px 26px;
+  border-radius:var(--radius);
+  background:#fff;
+  border:1px solid var(--border);
+  text-align:center;
+  transition:transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s, border-color .35s;
+}
+.why-card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-md);
+  border-color:rgba(109,40,217,.22);
+}
+.why-card__icon{
+  width:58px;height:58px;
+  margin:0 auto 20px;
+  border-radius:18px;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,rgba(109,40,217,.11),rgba(79,70,229,.06));
+  color:var(--primary);
+  transition:.35s;
+}
+.why-card:hover .why-card__icon{
+  background:linear-gradient(135deg,var(--primary),var(--primary-2));
+  color:#fff;
+  box-shadow:0 12px 26px rgba(109,40,217,.28);
+  transform:rotate(-6deg) scale(1.05);
+}
+.why-card__icon svg{width:27px;height:27px}
+.why-card h3{font-size:16.5px;font-weight:700;margin-bottom:9px}
+.why-card p{margin:0;font-size:14px;color:var(--muted);line-height:1.95}
+
+/* ===================== بنر CTA ===================== */
+.cta{
+  position:relative;
+  overflow:hidden;
+  border-radius:var(--radius-lg);
+  padding:56px 48px;
+  color:#fff;
+  background:linear-gradient(120deg,#5b21b6,#6d28d9 45%,#2563eb);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:32px;
+  flex-wrap:wrap;
+  box-shadow:var(--shadow-lg);
+}
+.cta::after{
+  content:'';
+  position:absolute;
+  width:380px;height:380px;
+  border-radius:50%;
+  top:-160px;inset-inline-start:-100px;
+  background:radial-gradient(circle,rgba(255,255,255,.18),transparent 68%);
+}
+.cta__text{position:relative;z-index:1;max-width:600px}
+.cta h3{font-size:clamp(20px,2.4vw,28px);font-weight:800;margin-bottom:10px}
+.cta p{margin:0;color:rgba(255,255,255,.86);font-size:15px}
+.cta .btn{position:relative;z-index:1}
+
+/* ===================== فوتر ===================== */
+.footer{
+  background:#16132a;
+  color:#b9b5c9;
+  padding-top:70px;
+  margin-top:84px;
+}
+.footer__grid{
+  display:grid;
+  grid-template-columns:1.6fr 1fr 1fr 1.5fr;
+  gap:44px;
+  padding-bottom:52px;
+}
+.footer .logo{color:#fff;margin-bottom:16px}
+.footer .logo__text b{color:var(--primary-light)}
+.footer__about{
+  font-size:14px;
+  line-height:2;
+  color:#8f8aa3;
+  margin:0 0 22px;
+  max-width:320px;
+}
+.footer h4{
+  color:#fff;
+  font-size:15.5px;
+  font-weight:700;
+  margin-bottom:20px;
+}
+.footer__links li{margin-bottom:11px}
+.footer__links a{
+  font-size:14px;
+  color:#8f8aa3;
+  transition:color .22s, padding .22s;
+  display:inline-block;
+}
+.footer__links a:hover{color:#fff;padding-inline-start:5px}
+
+.socials{display:flex;gap:10px}
+.socials a{
+  width:40px;height:40px;
+  border-radius:12px;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.09);
+  color:#b9b5c9;
+  transition:.28s;
+}
+.socials a:hover{
+  background:linear-gradient(135deg,var(--primary),var(--primary-2));
+  color:#fff;
+  transform:translateY(-3px);
+  border-color:transparent;
+}
+.socials svg{width:19px;height:19px}
+
+.newsletter p{font-size:14px;color:#8f8aa3;margin:0 0 16px;line-height:2}
+.newsletter__form{display:flex;gap:8px}
+.newsletter__form input{
+  flex:1;
+  min-width:0;
+  padding:12px 16px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  font-size:14px;
+  outline:none;
+  transition:.25s;
+}
+.newsletter__form input::placeholder{color:#6f6a85}
+.newsletter__form input:focus{
+  border-color:var(--primary-light);
+  background:rgba(255,255,255,.08);
+}
+.newsletter__form button{
+  padding:12px 22px;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+  font-size:14px;
+  color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--primary-2));
+  transition:.28s;
+  white-space:nowrap;
+}
+.newsletter__form button:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(109,40,217,.4)}
+.newsletter__msg{
+  font-size:13px;
+  color:#4ade80;
+  margin:10px 0 0;
+  min-height:20px;
+  opacity:0;
+  transition:opacity .3s;
+}
+.newsletter__msg.show{opacity:1}
+
+.footer__bottom{
+  border-top:1px solid rgba(255,255,255,.08);
+  padding:22px 0;
+  font-size:13.5px;
+  color:#7d7890;
+}
+.footer__bottom .container{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
+/* ===================== انیمیشن ظاهر شدن ===================== */
+.reveal{
+  opacity:0;
+  transform:translateY(26px);
+  transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+}
+.reveal.is-visible{opacity:1;transform:none}
+
+.listing-grid .reveal:nth-child(2),
+.why-grid .reveal:nth-child(2),
+.mini-cats .reveal:nth-child(2){transition-delay:.07s}
+.listing-grid .reveal:nth-child(3),
+.why-grid .reveal:nth-child(3),
+.mini-cats .reveal:nth-child(3){transition-delay:.14s}
+.listing-grid .reveal:nth-child(4),
+.why-grid .reveal:nth-child(4),
+.mini-cats .reveal:nth-child(4){transition-delay:.21s}
+.listing-grid .reveal:nth-child(5),
+.mini-cats .reveal:nth-child(5){transition-delay:.28s}
+.listing-grid .reveal:nth-child(6),
+.mini-cats .reveal:nth-child(6){transition-delay:.35s}
+
+/* ===================== ریسپانسیو ===================== */
+@media (max-width:1024px){
+  .hero__inner{grid-template-columns:1fr;gap:46px}
+  .hero__desc{max-width:none}
+  .hero__visual{max-width:520px;margin:0 auto;width:100%}
+  .mini-cats{grid-template-columns:repeat(3,1fr)}
+  .listing-grid{grid-template-columns:repeat(2,1fr)}
+  .why-grid{grid-template-columns:repeat(2,1fr)}
+  .footer__grid{grid-template-columns:1fr 1fr;gap:36px}
+}
+
+@media (max-width:900px){
+  .nav{
+    position:absolute;
+    top:var(--header-h);
+    inset-inline:0;
+    flex-direction:column;
+    align-items:stretch;
+    gap:4px;
+    margin:0;
+    padding:16px 20px 22px;
+    background:#fff;
+    border-bottom:1px solid var(--border);
+    box-shadow:0 20px 40px rgba(30,27,46,.10);
+    opacity:0;
+    transform:translateY(-12px);
+    pointer-events:none;
+    transition:opacity .28s, transform .28s cubic-bezier(.16,1,.3,1);
+  }
+  .nav.is-open{opacity:1;transform:none;pointer-events:auto}
+  .nav__link{padding:13px 16px;border-radius:12px;font-size:15px}
+  .nav__link::after{display:none}
+  .nav__link:hover{background:rgba(109,40,217,.06)}
+  .nav__auth{
+    display:flex;
+    gap:10px;
+    margin-top:12px;
+    padding-top:16px;
+    border-top:1px solid var(--border);
+  }
+  .nav__auth .btn{flex:1}
+  .header__actions{display:none}
+  .burger{display:grid}
+  .logo{margin-inline-end:auto}
+}
+
+@media (max-width:768px){
+  .section{padding:64px 0}
+  .hero{padding:52px 0 74px}
+  .hero__stats{gap:26px}
+  .stat__num{font-size:22px}
+  .cat-grid{grid-template-columns:1fr}
+  .cat-card{padding:30px 24px}
+  .float-badge--1{inset-inline-start:-6px;top:20px}
+  .float-badge--2{inset-inline-end:-6px;bottom:64px}
+  .cta{padding:42px 28px;text-align:center;justify-content:center}
+  .cta .btn{width:100%}
+  .footer{margin-top:64px;padding-top:54px}
+}
+
+@media (max-width:600px){
+  body{font-size:14.5px}
+  .container{padding:0 16px}
+  .listing-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .mini-cats{grid-template-columns:repeat(2,1fr)}
+  .footer__grid{grid-template-columns:1fr;gap:34px}
+  .footer__bottom .container{justify-content:center;text-align:center}
+  .newsletter__form{flex-direction:column}
+  .newsletter__form button{width:100%}
+  .hero__actions .btn{flex:1;min-width:150px}
+}
+
+/* احترام به تنظیمات کاهش حرکت */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===================== هدر ===================== -->
+<header class="header" id="header">
+  <div class="container header__inner">
+
+    <a href="#" class="logo" aria-label="بازارک، صفحه اصلی">
+      <span class="logo__mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 9h16l-1.2 10.2a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8L4 9z"/>
+          <path d="M9 9V6.5a3 3 0 0 1 6 0V9"/>
+        </svg>
+      </span>
+      <span class="logo__text">بازار<b>ک</b></span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="منوی اصلی">
+      <a href="#hero" class="nav__link is-active">خانه</a>
+      <a href="#listings" class="nav__link">کالاها</a>
+      <a href="#listings" class="nav__link">خدمات</a>
+      <a href="#categories" class="nav__link">دسته‌بندی‌ها</a>
+      <a href="#why" class="nav__link">درباره ما</a>
+
+      <div class="nav__auth">
+        <a href="#" class="btn btn-outline btn-sm">ورود</a>
+        <a href="#" class="btn btn-primary btn-sm">ثبت‌نام</a>
+      </div>
+    </nav>
+
+    <div class="header__actions">
+      <a href="#" class="btn btn-outline btn-sm">ورود</a>
+      <a href="#" class="btn btn-primary btn-sm">ثبت‌نام</a>
+    </div>
+
+    <button class="burger" id="burger" aria-label="باز و بسته کردن منو" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</header>
+
+<main>
+
+  <!-- ===================== هیرو ===================== -->
+  <section class="hero" id="hero">
+    <div class="container hero__inner">
+
+      <div class="hero__content">
+        <span class="badge-pill">
+          <span class="dot"></span>
+          بزرگ‌ترین بازارگاه کالا و خدمات ایران
+        </span>
+
+        <h1>
+          هر چیزی که نیاز داری،
+          <span class="highlight">همین‌جا پیدا می‌شه</span>
+        </h1>
+
+        <p class="hero__desc">
+          از خرید کالای نو و دست‌دوم تا سفارش خدمات تخصصی؛ هزاران فروشنده و متخصص تأیید‌شده
+          در کنار هم، با قیمت شفاف و پرداخت امن.
+        </p>
+
+        <div class="hero__actions">
+          <a href="#listings" class="btn btn-light">
+            شروع کنید
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+          </a>
+          <a href="#categories" class="btn btn-glass">مشاهده دسته‌بندی‌ها</a>
+        </div>
+
+        <div class="hero__stats">
+          <div class="stat">
+            <span class="stat__num" data-count="125000">۰</span>
+            <span class="stat__label">آگهی فعال</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num" data-count="8400">۰</span>
+            <span class="stat__label">فروشنده تأیید‌شده</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num" data-count="96">۰</span>
+            <span class="stat__label">درصد رضایت کاربران</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__visual">
+        <div class="visual-card">
+          <img src="https://picsum.photos/seed/marketplace7/720/580" alt="آگهی ویژه بازارک" loading="eager">
+          <div class="visual-card__info">
+            <span class="visual-card__tag">آگهی ویژه</span>
+            <h4>آپارتمان ۹۰ متری، نورگیر، تهران</h4>
+            <p class="visual-card__price">۴٫۲۰۰٫۰۰۰٫۰۰۰ تومان</p>
+          </div>
+        </div>
+
+        <div class="float-badge float-badge--1">✅ فروشنده تأیید‌شده</div>
+        <div class="float-badge float-badge--2">⭐ امتیاز ۴.۹ از ۵</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== دسته‌بندی‌ها ===================== -->
+  <section class="section" id="categories">
+    <div class="container">
+
+      <div class="section__head reveal">
+        <span class="eyebrow">دسته‌بندی‌ها</span>
+        <h2 class="section__title">دنبال چه چیزی هستید؟</h2>
+        <p class="section__desc">
+          در دو دسته‌ی اصلی «کالا» و «خدمات» جست‌وجو کنید و در چند ثانیه به هزاران آگهی معتبر دسترسی داشته باشید.
+        </p>
+      </div>
+
+      <div class="cat-grid">
+
+        <a href="#listings" class="cat-card cat-card--goods reveal">
+          <div class="cat-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 8h14l-1.3 11.1a2 2 0 0 1-2 1.9H8.3a2 2 0 0 1-2-1.9L5 8z"/>
+              <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+            </svg>
+          </div>
+          <h3>کالا</h3>
+          <p>
+            موبایل، لپ‌تاپ، لوازم خانگی، خودرو، پوشاک، تجهیزات ورزشی و هر چیزی که می‌خواهی بخری یا بفروشی.
+          </p>
+          <div class="cat-card__foot">
+            <span class="cat-card__count">۸۶٫۲۰۰ آگهی</span>
+            <span class="cat-card__arrow">←</span>
+          </div>
+        </a>
+
+        <a href="#listings" class="cat-card cat-card--services reveal">
+          <div class="cat-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="7" width="18" height="13" rx="2.5"/>
+              <path d="M8.5 7V5.5A2 2 0 0 1 10.5 3.5h3a2 2 0 0 1 2 2V7"/>
+              <path d="M3 12.5h18"/>
+            </svg>
+          </div>
+          <h3>خدمات</h3>
+          <p>
+            طراحی سایت، تدریس خصوصی، تعمیرات، نظافت، مشاوره، حمل‌ونقل و هر خدمتی که به آن نیاز دارید.
+          </p>
+          <div class="cat-card__foot">
+            <span class="cat-card__count">۳۸٫۸۰۰ آگهی</span>
+            <span class="cat-card__arrow">←</span>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="mini-cats">
+        <a href="#listings" class="mini-cat reveal"><span class="mini-cat__icon">📱</span> موبایل و تبلت</a>
+        <a href="#listings" class="mini-cat reveal"><span class="mini-cat__icon">💻</span> لپ‌تاپ و کامپیوتر</a>
+        <a href="#listings" class="mini-cat reveal"><span class="mini-cat__icon">🏠</span> املاک و مسکن</a>
+        <a href="#listings" class="mini-cat reveal"><span class="mini-cat__icon">🚗</span> خودرو و وسایل نقلیه</a>
+        <a href="#listings" class="mini-cat reveal"><span class="mini-cat__icon">🎓</span> آموزش و تدریس</a>
+        <a href="#listings" class="mini-cat reveal"><span class="mini-cat__icon">🔧</span> تعمیرات و سرویس</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== آخرین آگهی‌ها ===================== -->
+  <section class="section section--soft" id="listings">
+    <div class="container">
+
+      <div class="section__head reveal">
+        <span class="eyebrow">تازه‌ترین‌ها</span>
+        <h2 class="section__title">آخرین آگهی‌ها</h2>
+        <p class="section__desc">
+          جدیدترین کالاها و خدمات ثبت‌شده در بازارک را ببینید و مستقیم با فروشنده ارتباط بگیرید.
+        </p>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="فیلتر آگهی‌ها">
+        <button class="tab is-active" data-filter="all" role="tab" aria-selected="true">همه</button>
+        <button class="tab" data-filter="product" role="tab" aria-selected="false">کالا</button>
+        <button class="tab" data-filter="service" role="tab" aria-selected="false">خدمات</button>
+      </div>
+
+      <div class="listing-grid" id="listingGrid">
+
+        <!-- ۱ -->
+        <article class="card reveal" data-type="product">
+          <div class="card__media">
+            <img src="https://picsum.photos/seed/galaxy23/640/420" alt="گوشی سامسونگ گلکسی S23" loading="lazy">
+            <span class="card__badge">کالا</span>
+          </div>
+          <div class="card__body">
+            <h3 class="card__title">گوشی موبایل سامسونگ گلکسی S23 اولترا، ظرفیت ۲۵۶ گیگابایت</h3>
+            <div class="card__meta">
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                تهران
+              </span>
+              <span>۲ ساعت پیش</span>
+            </div>
+            <div class="card__foot">
+              <span class="card__price">۲۸٫۵۰۰٫۰۰۰ <small>تومان</small></span>
+              <button class="card__btn" type="button">مشاهده</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ۲ -->
+        <article class="card reveal" data-type="service">
+          <div class="card__media">
+            <img src="https://picsum.photos/seed/webdesign22/640/420" alt="طراحی سایت فروشگاهی" loading="lazy">
+            <span class="card__badge">خدمات</span>
+          </div>
+          <div class="card__body">
+            <h3 class="card__title">طراحی و راه‌اندازی سایت فروشگاهی با پنل مدیریت اختصاصی</h3>
+            <div class="card__meta">
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                دورکاری
+              </span>
+              <span>۵ ساعت پیش</span>
+            </div>
+            <div class="card__foot">
+              <span class="card__price">۱۲٫۰۰۰٫۰۰۰ <small>تومان</small></span>
+              <button class="card__btn" type="button">مشاهده</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ۳ -->
+        <article class="card reveal" data-type="product">
+          <div class="card__media">
+            <img src="https://picsum.photos/seed/laptopasus/640/420" alt="لپ‌تاپ ایسوس VivoBook" loading="lazy">
+            <span class="card__badge">کالا</span>
+          </div>
+          <div class="card__body">
+            <h3 class="card__title">لپ‌تاپ ایسوس VivoBook ۱۵، Core i7 با ۱۶ گیگ رم</h3>
+            <div class="card__meta">
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                اصفهان
+              </span>
+              <span>دیروز</span>
+            </div>
+            <div class="card__foot">
+              <span class="card__price">۳۴٫۹۰۰٫۰۰۰ <small>تومان</small></span>
+              <button class="card__btn" type="button">مشاهده</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ۴ -->
+        <article class="card reveal" data-type="service">
+          <div class="card__media">
+            <img src="https://picsum.photos/seed/teachermath/640/420" alt="تدریس خصوصی ریاضی" loading="lazy">
+            <span class="card__badge">خدمات</span>
+          </div>
+          <div class="card__body">
+            <h3 class="card__title">تدریس خصوصی ریاضی و فیزیک کنکور، تضمینی و آنلاین</h3>
+            <div class="card__meta">
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                مشهد
+              </span>
+              <span>دیروز</span>
+            </div>
+            <div class="card__foot">
+              <span class="card__price">۳۵۰٫۰۰۰ <small>تومان / جلسه</small></span>
+              <button class="card__btn" type="button">مشاهده</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ۵ -->
+        <article class="card reveal" data-type="product">
+          <div class="card__media">
+            <img src="https://picsum.photos/seed/bicycle88/640/420" alt="دوچرخه کوهستان" loading="lazy">
+            <span class="card__badge">کالا</span>
+          </div>
+          <div class="card__body">
+            <h3 class="card__title">دوچرخه کوهستان سایز ۲۷.۵، ترمز هیدرولیک، در حد نو</h3>
+            <div class="card__meta">
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                شیراز
+              </span>
+              <span>۲ روز پیش</span>
+            </div>
+            <div class="card__foot">
+              <span class="card__price">۹٫۸۰۰٫۰۰۰ <small>تومان</small></span>
+              <button class="card__btn" type="button">مشاهده</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ۶ -->
+        <article class="card reveal" data-type="service">
+          <div class="card__media">
+            <img src="https://picsum.photos/seed/cleaning55/640/420" alt="خدمات نظافت منزل" loading="lazy">
+            <span class="card__badge">خدمات</span>
+          </div>
+          <div class="card__body">
+            <h3 class="card__title">خدمات نظافت منزل و راه‌پله با تیم مجرب و تجهیزات کامل</h3>
+            <div class="card__meta">
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                کرج
+              </span>
+              <span>۳ روز پیش</span>
+            </div>
+            <div class="card__foot">
+              <span class="card__price">۲۵۰٫۰۰۰ <small>تومان / ساعت</small></span>
+              <button class="card__btn" type="button">مشاهده</button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="listings__more reveal">
+        <a href="#" class="btn btn-outline">مشاهده همه آگهی‌ها</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== چرا ما ===================== -->
+  <section class="section" id="why">
+    <div class="container">
+
+      <div class="section__head reveal">
+        <span class="eyebrow">چرا بازارک؟</span>
+        <h2 class="section__title">خرید و فروش، ساده‌تر از همیشه</h2>
+        <p class="section__desc">
+          ما زیرساختی امن و سریع فراهم کرده‌ایم تا شما فقط روی معامله‌ی خوب تمرکز کنید.
+        </p>
+      </div>
+
+      <div class="why-grid">
+
+        <div class="why-card reveal">
+          <div class="why-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3l7.5 3v5.6c0 4.6-3.2 8.2-7.5 9.4-4.3-1.2-7.5-4.8-7.5-9.4V6L12 3z"/>
+              <path d="M9 12l2 2 4-4.2"/>
+            </svg>
+          </div>
+          <h3>پرداخت امن</h3>
+          <p>مبلغ تا تأیید نهایی دریافت کالا یا انجام خدمت، نزد بازارک نگه داشته می‌شود.</p>
+        </div>
+
+        <div class="why-card reveal">
+          <div class="why-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2.5L4.5 14H11l-1 7.5L19.5 10H13l0-7.5z"/>
+            </svg>
+          </div>
+          <h3>ثبت سریع آگهی</h3>
+          <p>در کمتر از دو دقیقه آگهی خود را ثبت کنید و بلافاصله در معرض دید هزاران کاربر قرار دهید.</p>
+        </div>
+
+        <div class="why-card reveal">
+          <div class="why-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.8a8 8 0 0 1-11.6 7.2L4 21l2-5.2A8 8 0 1 1 21 11.8z"/>
+              <path d="M8.8 11.5h.01M12 11.5h.01M15.2 11.5h.01"/>
+            </svg>
+          </div>
+          <h3>پشتیبانی ۲۴/۷</h3>
+          <p>تیم پشتیبانی در تمام ساعات شبانه‌روز پاسخگوی سوالات و مشکلات شماست.</p>
+        </div>
+
+        <div class="why-card reveal">
+          <div class="why-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.5" y="5.5" width="19" height="13" rx="3"/>
+              <path d="M2.5 10.5h19"/>
+              <path d="M6.5 15h3"/>
+            </svg>
+          </div>
+          <h3>کمیسیون منصفانه</h3>
+          <p>بدون هزینه‌ی پنهان؛ فقط در ازای فروش موفق، کارمزد اندک و شفاف پرداخت می‌کنید.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== بنر دعوت ===================== -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="cta reveal">
+        <div class="cta__text">
+          <h3>همین حالا آگهی خودت رو ثبت کن!</h3>
+          <p>رایگان ثبت کن، سریع بفروش. بیش از ۱۲۵ هزار کاربر فعال منتظر کالا و خدمات شما هستند.</p>
+        </div>
+        <a href="#" class="btn btn-light">ثبت آگهی رایگان</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== فوتر ===================== -->
+<footer class="footer">
+  <div class="container footer__grid">
+
+    <div>
+      <a href="#" class="logo">
+        <span class="logo__mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 9h16l-1.2 10.2a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8L4 9z"/>
+            <path d="M9 9V6.5a3 3 0 0 1 6 0V9"/>
+          </svg>
+        </span>
+        <span class="logo__text">بازار<b>ک</b></span>
+      </a>
+      <p class="footer__about">
+        بازارک، بازارگاه آنلاین کالا و خدمات؛ جایی که خریدار و فروشنده در یک محیط امن و شفاف به هم می‌رسند.
+      </p>
+      <div class="socials">
+        <a href="#" aria-label="اینستاگرام">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+            <rect x="3" y="3" width="18" height="18" rx="5"/>
+            <circle cx="12" cy="12" r="3.6"/>
+            <path d="M17.2 6.8h.01"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="تلگرام">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 4L3 11.2l5 1.8L20 6l-9.6 9.4.6 4.6 2.6-3.2 4.4 3.2L21 4z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="لینکدین">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="4"/>
+            <path d="M7.5 10.5V17M7.5 7.4v.01M11.5 17v-3.4a2 2 0 0 1 4 0V17"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <h4>دسترسی سریع</h4>
+      <ul class="footer__links">
+        <li><a href="#hero">خانه</a></li>
+        <li><a href="#listings">کالاها</a></li>
+        <li><a href="#listings">خدمات</a></li>
+        <li><a href="#categories">دسته‌بندی‌ها</a></li>
+        <li><a href="#why">درباره ما</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4>پشتیبانی</h4>
+      <ul class="footer__links">
+        <li><a href="#">سوالات متداول</a></li>
+        <li><a href="#">قوانین و مقررات</a></li>
+        <li><a href="#">حریم خصوصی</a></li>
+        <li><a href="#">تماس با ما</a></li>
+        <li><a href="#">گزارش تخلف</a></li>
+      </ul>
+    </div>
+
+    <div class="newsletter">
+      <h4>خبرنامه بازارک</h4>
+      <p>جدیدترین آگهی‌ها و تخفیف‌های ویژه را در ایمیل خود دریافت کنید.</p>
+      <form class="newsletter__form" id="newsletterForm" novalidate>
+        <input type="email" id="newsletterEmail" placeholder="ایمیل خود را وارد کنید" aria-label="ایمیل" required>
+        <button type="submit">عضویت</button>
+      </form>
+      <p class="newsletter__msg" id="newsletterMsg" role="status"></p>
+    </div>
+
+  </div>
+
+  <div class="footer__bottom">
+    <div class="container">
+      <span>© ۱۴۰۴ بازارک — تمامی حقوق محفوظ است.</span>
+      <span>ساخته‌شده با ❤️ در ایران</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ============ ۱) هدر چسبان ============ */
+  const header = document.getElementById('header');
+  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 10);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* ============ ۲) منوی موبایل ============ */
+  const burger = document.getElementById('burger');
+  const nav = document.getElementById('nav');
+
+  function closeMenu() {
+    nav.classList.remove('is-open');
+    burger.classList.remove('is-active');
+    burger.setAttribute('aria-expanded', 'false');
+  }
+
+  burger.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('is-open');
+    burger.classList.toggle('is-active', isOpen);
+    burger.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 900) closeMenu();
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (window.innerWidth > 900) return;
+    if (!nav.classList.contains('is-open')) return;
+    if (!nav.contains(e.target) && !burger.contains(e.target)) closeMenu();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) closeMenu();
+  });
+
+  /* ============ ۳) فیلتر آگهی‌ها ============ */
+  const tabs = document.querySelectorAll('.tab');
+  const cards = document.querySelectorAll('#listingGrid .card');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => {
+        t.classList.remove('is-active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('is-active');
+      tab.setAttribute('aria-selected', 'true');
+
+      const filter = tab.dataset.filter;
+
+      cards.forEach(card => {
+        const match = filter === 'all' || card.dataset.type === filter;
+        card.classList.toggle('is-hidden', !match);
+
+        if (match) {
+          // انیمیشن ظاهر شدن مجدد
+          card.style.animation = 'none';
+          void card.offsetWidth;
+          card.style.animation = '';
+        }
+      });
+    });
+  });
+
+  /* ============ ۴) انیمیشن ظاهر شدن با اسکرول ============ */
+  const revealEls = document.querySelectorAll('.reveal');
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
+
+  /* ============ ۵) شمارنده‌ی آمار هیرو ============ */
+  const toPersian = (n) => Number(n).toLocaleString('fa-IR');
+
+  const counters = document.querySelectorAll('[data-count]');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function runCounter(el) {
+    const target = parseInt(el.dataset.count, 10) || 0;
+    if (prefersReduced) {
+      el.textContent = toPersian(target);
+      return;
+    }
+    const duration = 1500;
+    let startTime = null;
+
+    function step(ts) {
+      if (startTime === null) startTime = ts;
+      const progress = Math.min((ts - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = toPersian(Math.floor(target * eased));
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = toPersian(target);
+    }
+    requestAnimationFrame(step);
+  }
+
+  if ('IntersectionObserver' in window) {
+    const counterObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          runCounter(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+
+    counters.forEach(el => counterObserver.observe(el));
+  } else {
+    counters.forEach(runCounter);
+  }
+
+  /* ============ ۶) فعال‌سازی لینک منو بر اساس اسکرول ============ */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav__link');
+
+  if ('IntersectionObserver' in window && sections.length) {
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.toggle('is-active', link.getAttribute('href') === '#' + id);
+        });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+
+    sections.forEach(sec => sectionObserver.observe(sec));
+  }
+
+  /* ============ ۷) فرم خبرنامه ============ */
+  const form = document.getElementById('newsletterForm');
+  const emailInput = document.getElementById('newsletterEmail');
+  const msg = document.getElementById('newsletterMsg');
+
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const value = emailInput.value.trim();
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+      msg.classList.add('show');
+
+      if (!valid) {
+        msg.style.color = '#f87171';
+        msg.textContent = 'لطفاً یک ایمیل معتبر وارد کنید.';
+        return;
+      }
+
+      msg.style.color = '#4ade80';
+      msg.textContent = '✓ عضویت شما با موفقیت ثبت شد.';
+      emailInput.value = '';
+
+      setTimeout(() => msg.classList.remove('show'), 4000);
+    });
+  }
+
+  /* ============ ۸) دکمه‌های «مشاهده» کارت‌ها ============ */
+  document.querySelectorAll('.card__btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const title = this.closest('.card').querySelector('.card__title').textContent.trim();
+      this.textContent = 'در حال باز کردن…';
+      const self = this;
+      setTimeout(() => {
+        self.textContent = 'مشاهده';
+        alert('صفحه آگهی: ' + title);
+      }, 350);
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>
