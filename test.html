@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تست اتصال</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+body { font-family: Tahoma; padding: 20px; background: #f0f0f0; }
+.box { background: white; padding: 20px; border-radius: 10px; margin: 10px 0; }
+.ok { color: green; font-weight: bold; }
+.err { color: red; font-weight: bold; }
+input, button { padding: 12px; font-size: 16px; border-radius: 8px; border: 1px solid #ccc; width: 100%; box-sizing: border-box; margin: 5px 0; }
+button { background: #6d28d9; color: white; border: none; }
+</style>
+</head>
+<body>
+<h1>تست اتصال به Supabase</h1>
+<input id="key" placeholder="کلید anon را اینجا پیست کن (با eyJ شروع می‌شود)">
+<button onclick="test()">شروع تست</button>
+<div id="result"></div>
+
+<script>
+async function test() {
+  const r = document.getElementById('result');
+  const key = document.getElementById('key').value.trim();
+  if (!key) { r.innerHTML = '<div class="box err">کلید را وارد کن</div>'; return; }
+  r.innerHTML = '<div class="box">در حال تست...</div>';
+  const sb = supabase.createClient('https://pxvhdxvmzofppfpkosc.supabase.co', key);
+  try {
+    const { data, error } = await sb.from('products').select('*');
+    if (error) throw error;
+    r.innerHTML = '<div class="box ok">✓ اتصال موفق! تعداد محصولات: ' + data.length + '</div>';
+  } catch (e) {
+    r.innerHTML = '<div class="box err">✗ خطا: ' + e.message + '</div>';
+  }
+}
+</script>
+</body>
+</html>
