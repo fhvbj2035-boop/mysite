@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>جزئیات محصول | بازارک</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Vazirmatn', Tahoma, sans-serif; background: #f9fafb; color: #111827; }
+.header { background: white; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 3px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 100; }
+.logo { font-size: 22px; font-weight: 700; color: #6d28d9; text-decoration: none; }
+.back { color: #6d28d9; text-decoration: none; font-size: 22px; }
+.container { max-width: 600px; margin: 0 auto; padding: 20px 15px 120px; }
+.img-box { width: 100%; aspect-ratio: 1; background: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 80px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.img-box img { width: 100%; height: 100%; object-fit: cover; }
+.title { font-size: 22px; font-weight: 700; margin-bottom: 10px; line-height: 1.5; }
+.price { font-size: 24px; color: #6d28d9; font-weight: 700; margin-bottom: 20px; }
+.price span { font-size: 14px; font-weight: 400; color: #6b7280; }
+.section { background: white; border-radius: 12px; padding: 16px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.section-title { font-size: 14px; color: #6b7280; margin-bottom: 8px; }
+.section-text { font-size: 15px; line-height: 1.9; }
+.seller { font-size: 14px; color: #6b7280; }
+.bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px 20px; box-shadow: 0 -2px 10px rgba(0,0,0,0.08); display: flex; gap: 10px; }
+.btn-cart { flex: 1; padding: 15px; background: #6d28d9; color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer; }
+.btn-cart:disabled { background: #c4b5fd; }
+.msg { position: fixed; top: 80px; left: 20px; right: 20px; padding: 14px; border-radius: 10px; text-align: center; font-size: 14px; display: none; z-index: 200; }
+.msg.ok { background: #dcfce7; color: #15803d; display: block; }
+.msg.err { background: #fee2e2; color: #b91c1c; display: block; }
+.loading { text-align: center; padding: 60px; color: #9ca3af; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="products.html" class="back">→</a>
+  <a href="index.html" class="logo">بازارک</a>
+  <div style="width:22px;"></div>
+</header>
+
+<div class="container" id="content">
+  <div class="loading">در حال بارگذاری...</div>
+</div>
+
+<div class="bar" id="bar" style="display:none;">
+  <button class="btn-cart" id="btnCart" onclick="addToCart()">افزودن به سبد خرید</button>
+</div>
+
+<div id="msg" class="msg"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyArOOLrGn8wwj9-Hi0Ew1RBVNDxILnmBWs",
+  authDomain: "myshop-82ab8.firebaseapp.com",
+  projectId: "myshop-82ab8",
+  storageBucket: "myshop-82ab8.firebasestorage.app",
+  messagingSenderId: "307024397182",
+  appId: "1:307024397182:web:54391f8a94d8f693dc692f"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+let currentUser = null;
+let product = null;
+let productId = null;
+
+onAuthStateChanged(auth, (user) => { currentUser = user; });
+
+const params = new URLSearchParams(window.location.search);
+productId = params.get('id');
+
+function formatPrice(p) { return Number(p).toLocaleString('fa-IR'); }
+
+function showMsg(t, type) {
+  const m = document.getElementById('msg');
+  m.textContent = t;
+  m.className = 'msg ' + type;
+  setTimeout(() => { m.className = 'msg'; }, 3000);
+}
+
+async function loadProduct() {
+  const content = document.getElementById('content');
+  if (!productId) { content.innerHTML = '<div class="loading">محصول یافت نشد</div>'; return; }
+  try {
+    const snap = await getDoc(doc(db, 'products', productId));
+    if (!snap.exists()) { content.innerHTML = '<div class="loading">محصول یافت نشد</div>'; return; }
+    product = snap.data();
+    const img = product.imageUrl ? '<img src="' + product.imageUrl + '">' : '📦';
+    content.innerHTML =
+      '<div class="img-box">' + img + '</div>' +
+      '<div class="title">' + (product.title || 'بدون نام') + '</div>' +
+      '<div class="price">' + formatPrice(product.price) + ' <span>تومان</span></div>' +
+      '<div class="section"><div class="section-title">توضیحات</div><div class="section-text">' + (product.description || 'بدون توضیحات') + '</div></div>' +
+      '<div class="section"><div class="section-title">فروشنده</div><div class="seller">' + (product.sellerEmail || 'نامشخص') + '</div></div>';
+    document.getElementById('bar').style.display = 'flex';
+  } catch (e) {
+    content.innerHTML = '<div class="loading">خطا: ' + e.message + '</div>';
+  }
+}
+
+window.addToCart = async function() {
+  if (!currentUser) { window.location.href = 'login.html'; return; }
+  if (!product || !productId) return;
+  const btn = document.getElementById('btnCart');
+  btn.disabled = true;
+  btn.textContent = 'در حال افزودن...';
+  try {
+    await addDoc(collection(db, 'orders'), {
+      buyerId: currentUser.uid,
+      buyerEmail: currentUser.email,
+      productId: productId,
+      productTitle: product.title,
+      price: product.price,
+      sellerId: product.sellerId,
+      quantity: 1,
+      totalPrice: product.price,
+      status: 'pending',
+      createdAt: serverTimestamp()
+    });
+    showMsg('✓ به سبد خرید اضافه شد', 'ok');
+    btn.textContent = '✓ اضافه شد';
+  } catch (e) {
+    showMsg('✗ خطا: ' + e.message, 'err');
+    btn.disabled = false;
+    btn.textContent = 'افزودن به سبد خرید';
+  }
+};
+
+loadProduct();
+</script>
+</body>
+</html>
