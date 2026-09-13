@@ -3,86 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ورود / ثبت‌نام | بازارک</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+<title>ورود / ثبت‌نام | AYTOOBYA</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Vazirmatn', Tahoma, sans-serif; background: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-.card { background: white; border-radius: 20px; padding: 35px 25px; width: 100%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
-.logo { text-align: center; font-size: 32px; font-weight: 700; color: #6d28d9; margin-bottom: 8px; }
-.sub { text-align: center; color: #666; margin-bottom: 25px; font-size: 14px; }
-.tabs { display: flex; background: #f3f4f6; border-radius: 12px; padding: 4px; margin-bottom: 25px; }
-.tab { flex: 1; text-align: center; padding: 10px; cursor: pointer; border-radius: 10px; font-weight: 500; color: #666; transition: all 0.2s; }
-.tab.active { background: #6d28d9; color: white; }
-.field { margin-bottom: 15px; }
-label { display: block; font-size: 13px; color: #444; margin-bottom: 6px; font-weight: 500; }
-input, select { width: 100%; padding: 12px 14px; border: 1.5px solid #e5e7eb; border-radius: 10px; font-family: inherit; font-size: 15px; transition: border 0.2s; }
-input:focus, select:focus { outline: none; border-color: #6d28d9; }
-.btn { width: 100%; padding: 14px; background: #6d28d9; color: white; border: none; border-radius: 10px; font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 8px; transition: background 0.2s; }
-.btn:hover { background: #5b21b6; }
-.btn:disabled { background: #c4b5fd; cursor: not-allowed; }
-.msg { padding: 12px; border-radius: 10px; margin-top: 15px; font-size: 14px; text-align: center; display: none; }
-.msg.err { background: #fee2e2; color: #b91c1c; display: block; }
-.msg.ok { background: #dcfce7; color: #15803d; display: block; }
-.hidden { display: none; }
-.link { text-align: center; margin-top: 20px; font-size: 13px; color: #666; }
-.link a { color: #6d28d9; text-decoration: none; font-weight: 600; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Vazirmatn',Tahoma,sans-serif;background:linear-gradient(135deg,#1e1b4b 0%,#4c1d95 50%,#7c3aed 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:#fff;border-radius:24px;padding:36px 26px;width:100%;max-width:420px;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
+.logo-mark{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#4c1d95);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:16px;letter-spacing:-1px;position:relative;box-shadow:0 4px 15px rgba(124,58,237,.4)}
+.logo-mark::after{content:'';position:absolute;top:5px;right:6px;width:7px;height:7px;border-radius:50%;background:#fbbf24;box-shadow:0 0 8px #fbbf24}
+.logo-text{font-size:22px;font-weight:900;color:#0a0a0f;letter-spacing:.5px}
+.logo-text span{color:#7c3aed}
+.sub{text-align:center;color:#6b7280;margin-bottom:24px;font-size:13px}
+.tabs{display:flex;background:#f3f4f6;border-radius:12px;padding:4px;margin-bottom:22px}
+.tab{flex:1;text-align:center;padding:11px;cursor:pointer;border-radius:10px;font-weight:600;color:#666;transition:all .2s;font-size:14px}
+.tab.active{background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;box-shadow:0 4px 12px rgba(124,58,237,.3)}
+.field{margin-bottom:14px}
+label{display:block;font-size:13px;color:#374151;margin-bottom:6px;font-weight:600}
+input,select{width:100%;padding:13px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-family:inherit;font-size:15px;transition:all .2s;background:#fafafa}
+input:focus,select:focus{outline:none;border-color:#7c3aed;background:#fff;box-shadow:0 0 0 4px rgba(124,58,237,.1)}
+.btn{width:100%;padding:15px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px;transition:all .2s;box-shadow:0 6px 20px rgba(124,58,237,.3)}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.msg{padding:12px;border-radius:10px;margin-top:14px;font-size:13px;text-align:center;display:none}
+.msg.err{background:#fee2e2;color:#b91c1c;display:block}
+.msg.ok{background:#dcfce7;color:#15803d;display:block}
+.hidden{display:none}
+.link{text-align:center;margin-top:20px;font-size:13px;color:#6b7280}
+.link a{color:#7c3aed;text-decoration:none;font-weight:700}
 </style>
 </head>
 <body>
 <div class="card">
-  <div class="logo">بازارک</div>
-  <div class="sub">بزرگ‌ترین بازارگاه کالا و خدمات ایران</div>
+  <div class="logo">
+    <div class="logo-mark">AY</div>
+    <div class="logo-text">AY<span>TOOBYA</span></div>
+  </div>
+  <div class="sub">بازارگاه هوشمند کالا و خدمات</div>
 
   <div class="tabs">
     <div class="tab active" id="tabLogin" onclick="switchTab('login')">ورود</div>
     <div class="tab" id="tabSignup" onclick="switchTab('signup')">ثبت‌نام</div>
   </div>
 
-  <!-- فرم ورود -->
   <div id="formLogin">
-    <div class="field">
-      <label>ایمیل</label>
-      <input type="email" id="loginEmail" placeholder="example@mail.com">
-    </div>
-    <div class="field">
-      <label>رمز عبور</label>
-      <input type="password" id="loginPass" placeholder="••••••••">
-    </div>
+    <div class="field"><label>ایمیل</label><input type="email" id="loginEmail" placeholder="example@mail.com"></div>
+    <div class="field"><label>رمز عبور</label><input type="password" id="loginPass" placeholder="••••••••"></div>
     <button class="btn" id="btnLogin" onclick="doLogin()">ورود به حساب</button>
   </div>
 
-  <!-- فرم ثبت‌نام -->
   <div id="formSignup" class="hidden">
-    <div class="field">
-      <label>نام و نام خانوادگی</label>
-      <input type="text" id="signupName" placeholder="مثلاً علی رضایی">
-    </div>
-    <div class="field">
-      <label>ایمیل</label>
-      <input type="email" id="signupEmail" placeholder="example@mail.com">
-    </div>
-    <div class="field">
-      <label>رمز عبور (حداقل ۶ کاراکتر)</label>
-      <input type="password" id="signupPass" placeholder="••••••••">
-    </div>
-    <div class="field">
-      <label>نوع حساب</label>
+    <div class="field"><label>نام و نام خانوادگی</label><input type="text" id="signupName" placeholder="مثلاً علی رضایی"></div>
+    <div class="field"><label>ایمیل</label><input type="email" id="signupEmail" placeholder="example@mail.com"></div>
+    <div class="field"><label>رمز عبور (حداقل ۶ کاراکتر)</label><input type="password" id="signupPass" placeholder="••••••••"></div>
+    <div class="field"><label>نوع حساب</label>
       <select id="signupRole">
         <option value="buyer">خریدار</option>
         <option value="seller">فروشنده</option>
+        <option value="provider">ارائه‌دهنده خدمات</option>
       </select>
     </div>
     <button class="btn" id="btnSignup" onclick="doSignup()">ساخت حساب</button>
   </div>
 
   <div id="msg" class="msg"></div>
-
-  <div class="link">
-    <a href="index.html">← بازگشت به صفحه اصلی</a>
-  </div>
+  <div class="link"><a href="index.html">← بازگشت به صفحه اصلی</a></div>
 </div>
 
 <script type="module">
@@ -103,10 +87,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// اگر کاربر قبلاً وارد شده، برو به صفحه اصلی
-onAuthStateChanged(auth, (user) => {
-  if (user) window.location.href = 'index.html';
-});
+onAuthStateChanged(auth, (user) => { if (user) window.location.href = 'index.html'; });
 
 window.switchTab = function(t) {
   document.getElementById('tabLogin').classList.toggle('active', t === 'login');
@@ -116,9 +97,9 @@ window.switchTab = function(t) {
   document.getElementById('msg').className = 'msg';
 };
 
-function showMsg(text, type) {
+function showMsg(t, type) {
   const m = document.getElementById('msg');
-  m.textContent = text;
+  m.textContent = t;
   m.className = 'msg ' + type;
 }
 
@@ -126,22 +107,20 @@ window.doLogin = async function() {
   const email = document.getElementById('loginEmail').value.trim();
   const pass = document.getElementById('loginPass').value;
   if (!email || !pass) { showMsg('ایمیل و رمز را وارد کنید', 'err'); return; }
-  document.getElementById('btnLogin').disabled = true;
-  document.getElementById('btnLogin').textContent = 'در حال ورود...';
+  const btn = document.getElementById('btnLogin');
+  btn.disabled = true; btn.textContent = 'در حال ورود...';
   try {
     await signInWithEmailAndPassword(auth, email, pass);
-    showMsg('✓ ورود موفق! در حال انتقال...', 'ok');
+    showMsg('✓ ورود موفق!', 'ok');
     setTimeout(() => window.location.href = 'index.html', 800);
   } catch (e) {
     let msg = 'خطا در ورود';
-    if (e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') msg = 'ایمیل یا رمز اشتباه است';
+    if (e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found') msg = 'ایمیل یا رمز اشتباه است';
     else if (e.code === 'auth/invalid-email') msg = 'ایمیل نامعتبر است';
-    else if (e.code === 'auth/network-request-failed') msg = 'خطای شبکه - VPN را روشن کنید';
+    else if (e.code === 'auth/network-request-failed') msg = 'خطای شبکه';
     else msg = e.message;
     showMsg('✗ ' + msg, 'err');
-  } finally {
-    document.getElementById('btnLogin').disabled = false;
-    document.getElementById('btnLogin').textContent = 'ورود به حساب';
+    btn.disabled = false; btn.textContent = 'ورود به حساب';
   }
 };
 
@@ -152,29 +131,24 @@ window.doSignup = async function() {
   const role = document.getElementById('signupRole').value;
   if (!name || !email || !pass) { showMsg('همه فیلدها را پر کنید', 'err'); return; }
   if (pass.length < 6) { showMsg('رمز باید حداقل ۶ کاراکتر باشد', 'err'); return; }
-  document.getElementById('btnSignup').disabled = true;
-  document.getElementById('btnSignup').textContent = 'در حال ساخت...';
+  const btn = document.getElementById('btnSignup');
+  btn.disabled = true; btn.textContent = 'در حال ساخت...';
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await setDoc(doc(db, 'users', cred.user.uid), {
-      name: name,
-      email: email,
-      role: role,
-      createdAt: serverTimestamp()
+      name, email, role, createdAt: serverTimestamp()
     });
-    showMsg('✓ ثبت‌نام موفق! در حال انتقال...', 'ok');
+    showMsg('✓ ثبت‌نام موفق!', 'ok');
     setTimeout(() => window.location.href = 'index.html', 800);
   } catch (e) {
     let msg = 'خطا در ثبت‌نام';
-    if (e.code === 'auth/email-already-in-use') msg = 'این ایمیل قبلاً ثبت شده است';
+    if (e.code === 'auth/email-already-in-use') msg = 'این ایمیل قبلاً ثبت شده';
     else if (e.code === 'auth/invalid-email') msg = 'ایمیل نامعتبر است';
-    else if (e.code === 'auth/weak-password') msg = 'رمز عبور ضعیف است';
-    else if (e.code === 'auth/network-request-failed') msg = 'خطای شبکه - VPN را روشن کنید';
+    else if (e.code === 'auth/weak-password') msg = 'رمز ضعیف است';
+    else if (e.code === 'auth/network-request-failed') msg = 'خطای شبکه';
     else msg = e.message;
     showMsg('✗ ' + msg, 'err');
-  } finally {
-    document.getElementById('btnSignup').disabled = false;
-    document.getElementById('btnSignup').textContent = 'ساخت حساب';
+    btn.disabled = false; btn.textContent = 'ساخت حساب';
   }
 };
 </script>
